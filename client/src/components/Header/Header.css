@@ -1,0 +1,7 @@
+.middle_navigation {
+  @apply transition hover:text-primaryOrange;
+}
+
+.rightside_navigation {
+  @apply flex justify-center items-center gap-2 transition hover:text-primaryOrange;
+}
