@@ -1,14 +1,20 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
 import Favorites from "./pages/FavoritesPage.jsx";
+import Delivery from "./pages/DeliveryPage.jsx";
+import "./index.css";
 
+// This array defined the pages of an app
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/delivery",
+    element: <Delivery />,
   },
   {
     path: "/favorites",

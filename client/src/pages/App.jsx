@@ -8,7 +8,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <PizzaAdSection/>
+      <PizzaAdSection />
       <MainFoodSection />
       <Footer />
     </>

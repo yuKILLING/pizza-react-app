@@ -8,6 +8,7 @@ export default function MainFoodSection() {
   // States
   const [pizzas, setPizzas] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Function that processes Best-Seller List by counter of orders.
   function findBestSellers(pizzasArray) {
@@ -17,16 +18,17 @@ export default function MainFoodSection() {
     return sortedArray.slice(0, 4);
   }
 
-  
   // Function that fetches data from backend.
   const fetchPizzas = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         "http://localhost:5000/pizza/getallpizzas"
       );
       const pizzasData = response.data;
       setPizzas(pizzasData);
       setBestSellers(findBestSellers(pizzasData));
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching pizzas:", error);
     }
@@ -37,9 +39,9 @@ export default function MainFoodSection() {
   }, [fetchPizzas]);
 
   return (
-    <section className="max-w-[1320px] m-auto">
-      <OftenOrdersSection bestSellers={bestSellers} />
-      <MenuSection pizzas={pizzas} />
+    <section className="max-w-[1320px] m-auto flex flex-col">
+      <OftenOrdersSection bestSellers={bestSellers} loading={loading} />
+      <MenuSection pizzas={pizzas} loading={loading} />
     </section>
   );
 }
