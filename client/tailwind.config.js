@@ -7,6 +7,7 @@ export default {
         primaryOrange: '#E86100',
         secondaryOrange: '#FE3E02',
         primaryYellow: '#FFD605',
+        primaryBlue: '#017EB4',
         footerMainTheme: '#181818'
       },
     },

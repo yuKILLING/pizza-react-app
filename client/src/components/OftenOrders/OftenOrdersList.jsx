@@ -1,11 +1,9 @@
 import OftenOrdersItem from "./OftenOrdersItem";
-
-export default function OftenOrdersList() {
+// This is Often-Orders-List, which you can see on top of the catalog Page.
+export default function OftenOrdersList({ bestSellers }) {
   return (
-    <section className="flex gap-6 flex-wrap">
-      <OftenOrdersItem />
-      <OftenOrdersItem />
-      <OftenOrdersItem />
-    </section>
+    <div className="flex gap-6 flex-wrap">
+      {bestSellers.map(bestSeller => <OftenOrdersItem key={bestSeller.pizza_id} bestSeller={bestSeller}/>)}
+    </div>
   );
 }
