@@ -12,3 +12,8 @@ li{
   cursor: pointer;
 }
 
+/* That for scroll bar */
+
+html {
+  margin-right: calc(-1 * (100vw - 100%));
+}

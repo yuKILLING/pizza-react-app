@@ -3,9 +3,11 @@ import { useState, useEffect, useCallback } from "react";
 import MenuSection from "./MenuSection/MenuSection";
 import OftenOrdersSection from "./OftenOrders/OftenOrdersSection";
 
+
 // Main Section of Catalog Page, that consist of Food List's that we recieve from backend.
 export default function MainFoodSection() {
   // States
+  const [modal, setModal] = useState(false);
   const [pizzas, setPizzas] = useState([]);
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,7 @@ export default function MainFoodSection() {
 
   return (
     <section className="max-w-[1320px] m-auto flex flex-col">
+      <button>asd</button>
       <OftenOrdersSection bestSellers={bestSellers} loading={loading} />
       <MenuSection pizzas={pizzas} loading={loading} />
     </section>
