@@ -8,7 +8,8 @@ export default {
         secondaryOrange: '#FE3E02',
         primaryYellow: '#FFD605',
         primaryBlue: '#017EB4',
-        footerMainTheme: '#181818'
+        footerMainTheme: '#181818',
+        notWhite: '#FCFCFC'
       },
     },
   },

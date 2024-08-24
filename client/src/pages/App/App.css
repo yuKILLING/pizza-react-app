@@ -3,7 +3,6 @@
   padding: 0;
 } 
 
-
 body{
   font-family: Nunito;
 }
@@ -14,6 +13,6 @@ li{
 
 /* That for scroll bar */
 
-html {
+/* html {
   margin-right: calc(-1 * (100vw - 100%));
-}
+} */

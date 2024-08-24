@@ -42,7 +42,6 @@ export default function MainFoodSection() {
 
   return (
     <section className="max-w-[1320px] m-auto flex flex-col">
-      <button>asd</button>
       <OftenOrdersSection bestSellers={bestSellers} loading={loading} />
       <MenuSection pizzas={pizzas} loading={loading} />
     </section>

@@ -1,7 +1,7 @@
 import "./Delivery.css";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
-import DeliverySection from "../components/DeliverySection/DeliverySection";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer";
+import DeliverySection from "../../components/DeliverySection/DeliverySection";
 
 export default function Delivery() {
   return (

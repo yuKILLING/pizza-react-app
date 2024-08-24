@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="bg-white z-10 bg-opacity-80 backdrop-blur-md border-b border-b-gray-200 w-full sticky top-0">
+    <header className="bg-white z-10 bg-opacity-80 backdrop-blur-md border-b border-b-gray-200 sticky top-0">
       <div className="text-base grid grid-cols-3 items-center justify-items-center max-w-[1200px] py-2 m-auto">
         {/* Main Logo */}
         <NavLink to={"/"}>
@@ -31,14 +31,16 @@ export default function Header() {
         {/* Right navigation */}
         <ul className="flex gap-7 font-bold">
           {/* Street */}
-          <div className="rightside_navigation">
-            <img
-              src="/icons/location.svg"
-              alt="Location"
-              className="w-4 cursor-pointer"
-            />
-            <li>Адрес</li>
-          </div>
+          <Link to={"/street"}>
+            <div className="rightside_navigation">
+              <img
+                src="/icons/location.svg"
+                alt="Location"
+                className="w-4 cursor-pointer"
+              />
+              <li>Адрес</li>
+            </div>
+          </Link>
 
           {/* Profile */}
           <div className="rightside_navigation">

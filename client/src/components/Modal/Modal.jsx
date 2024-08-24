@@ -1,29 +1,42 @@
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 export default function Modal({ children, open }) {
-  const dialog = useRef();
   useEffect(() => {
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     if (open) {
-      dialog.current.showModal();
-      document.body.style.overflow = "hidden"; // Отключение прокрутки
+      document.body.classList.add("overflow-y-hidden");
+      document.body.style.marginRight = `${scrollbarWidth}px`;
     } else {
-      dialog.current.close();
-      document.body.style.overflow = "auto"; // Включение прокрутки
+      document.body.classList.remove("overflow-y-hidden");
+      document.body.style.marginRight = "";
     }
 
-    // Очистка эффекта при размонтировании
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("overflow-y-hidden");
+      document.body.style.marginRight = "";
     };
   }, [open]);
 
   return createPortal(
-    <dialog
-      ref={dialog}
-      className="border z-50 p-5 outline-none relative rounded-3xl w-[600px]"
-    >
-      {children}
-    </dialog>,
+    <>
+      <AnimatePresence initial={false} wait={true}>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="h-screen w-screen fixed z-50 top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 flex justify-center items-center"
+          >
+            <div className="w-[800px] h-[400px] rounded-3xl bg-white">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>,
     document.getElementById("modal")
   );
 }

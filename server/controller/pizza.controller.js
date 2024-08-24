@@ -5,6 +5,7 @@ class PizzaController {
       const pizzasList = await db.query("SELECT * FROM pizzas");
       res.status(201).json(pizzasList.rows);
     } catch (error) {
+      console.error(error)
       res.status(500).json({ error: error.message });
     }
   }
