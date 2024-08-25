@@ -1,5 +1,6 @@
 // That's Often-Orders-Item component, which is included in Often-Order-List component
 import { useState } from "react";
+import { addToCart } from "../../Utils/cartUtils";
 import Modal from "../Modal/Modal";
 import Button from "../Button/Button";
 
@@ -53,13 +54,14 @@ export default function OftenOrdersItem({ bestSeller }) {
             </div>
 
             {/* Кнопка добавления в корзину */}
-            <Button className="mt-auto">
+            <Button className="mt-auto" onClick={() => addToCart(bestSeller)}>
               Добавить в корзину за {bestSeller.pizza_price} ₽
             </Button>
           </div>
         </div>
       </Modal>
 
+      {/* Component */}
       <div
         onClick={openModal}
         className="w-64 h-24 shadow-md rounded-lg flex items-center px-2 gap-2 cursor-pointer overflow-hidden transition duration-300 hover:shadow-sm"

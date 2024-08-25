@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { addToCart } from "../../Utils/cartUtils";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 
@@ -15,6 +16,7 @@ export default function MenuItem({ pizza }) {
   function closeModal() {
     setModal(false);
   }
+
   // Menu Item
   return (
     <>
@@ -22,7 +24,7 @@ export default function MenuItem({ pizza }) {
       <Modal open={modal}>
         <div className="grid grid-cols-2 gap-4 items-center h-full p-4">
           {/* Первый столбец - изображение пиццы */}
-          <div className="flex justify-center relative">
+          <div className="flex justify-center relative border p-4 rounded-2xl">
             <img src={pizza.pizza_img} alt="Pizza" className="w-[300px]" />
             {pizza.pizza_status === "bestseller" && (
               <span className="absolute top-0 right-5 px-4 py-1 rounded-2xl bg-secondaryOrange text-white font-semibold text-xl">
@@ -55,7 +57,7 @@ export default function MenuItem({ pizza }) {
             </div>
 
             {/* Кнопка добавления в корзину */}
-            <Button className="mt-auto">
+            <Button className="mt-auto" onClick={() => addToCart(pizza)}>
               Добавить в корзину за {pizza.pizza_price} ₽
             </Button>
           </div>
@@ -96,7 +98,7 @@ export default function MenuItem({ pizza }) {
         {/* Price */}
         <div className="flex justify-between items-center mt-3 px-1">
           <span className="text-2xl font-bold">{pizza.pizza_price} ₽</span>
-          <Button>В корзину</Button>
+          <Button onClick={() => addToCart(pizza)}>В корзину</Button>
         </div>
       </div>
     </>
