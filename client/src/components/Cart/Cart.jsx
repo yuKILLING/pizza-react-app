@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import CartList from "./CartList";
 import Button from "../Button/Button";
 
-export default function Cart({ children, open, setCart }) {
+export default function Cart({ children, open, setCart, notify }) {
   // Getting data from LocalStorage
   const [pizzas, setPizzas] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -14,13 +14,14 @@ export default function Cart({ children, open, setCart }) {
     try {
       const parsedPizzas = stringPizzas ? JSON.parse(stringPizzas) : [];
       setPizzas(parsedPizzas);
+      
       // Getting total price using reduce
       if (parsedPizzas) {
         const price = parsedPizzas.reduce((acc, pizza) => {
-          return acc + pizza.pizza_price
+          return acc + pizza.pizza_price;
         }, 0);
-        setTax(price*0.05)
-        setTotalPrice(price+tax)
+        setTax(price * 0.05);
+        setTotalPrice(price + tax);
       }
     } catch (error) {
       console.error("Error parsing pizzas from localStorage", error);
@@ -66,7 +67,9 @@ export default function Cart({ children, open, setCart }) {
                   className="w-6 cursor-pointer hover:rotate-90 transition duration-300"
                   onClick={() => setCart(!open)}
                 />
-                <h6 className="font-bold text-2xl">Корзина</h6>
+                <h6 className="font-bold text-2xl">
+                  Корзина
+                </h6>
               </div>
 
               {/* Cart Item List */}
@@ -75,16 +78,16 @@ export default function Cart({ children, open, setCart }) {
               </div>
 
               {/* Amount */}
-              <div className="flex flex-col mb-4 mx-2">
+              <div className="flex flex-col mb-4 mx-4">
                 <div className="flex">
                   <span>Налог 5%:</span>
                   <div className="border-b border-dashed flex-1"></div>
-                  <b>{tax} ₽</b>
+                  <b className="text-green-800">{tax} ₽</b>
                 </div>
                 <div className="flex">
                   <span>Итого:</span>
                   <div className="border-b border-dashed flex-1"></div>
-                  <b>{totalPrice} ₽</b>
+                  <b className="text-green-800">{totalPrice} ₽</b>
                 </div>
               </div>
 

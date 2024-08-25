@@ -2,7 +2,7 @@
 This is a Pizza's shop SPA app, that has frontend and backend parts.
 
 # MAIN TODO's
-Finalize backend server, create favorites page, delivery page, add map for address, profile.
+Finalize location page, make localstorage reactive, create profile page. 
 
 # Stack
 React, Vite, Tailwind, Node, Express, Postgresql.
