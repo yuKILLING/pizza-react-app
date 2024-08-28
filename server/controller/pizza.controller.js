@@ -18,15 +18,17 @@ class PizzaController {
         pizza_price = 0,
         pizza_status = 'none',
         pizza_img,
+        pizza_grams
       } = req.body;
       const query =
-        "INSERT INTO pizzas (pizza_name, pizza_description, pizza_price, pizza_status, pizza_img) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+        "INSERT INTO pizzas (pizza_name, pizza_description, pizza_price, pizza_status, pizza_img, pizza_grams) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
       const values = [
         pizza_name,
         pizza_description,
         pizza_price,
         pizza_status,
         pizza_img,
+        pizza_grams
       ];
       const newPizza = await db.query(query, values);
       res.status(201).json(newPizza.rows[0]);
