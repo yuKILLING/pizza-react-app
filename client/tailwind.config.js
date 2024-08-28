@@ -9,6 +9,7 @@ export default {
         primaryYellow: '#FFD605',
         primaryBlue: '#017EB4',
         footerMainTheme: '#181818',
+        primaryGray: '#5c6370',
         notWhite: '#FCFCFC'
       },
     },

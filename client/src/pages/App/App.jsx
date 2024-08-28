@@ -6,16 +6,19 @@ import MainFoodSection from "../../components/MainFoodSection";
 import Footer from "../../components/Footer";
 import PizzaAdSection from "../../components/PizzaAdSection";
 import Cart from "../../components/Cart/Cart";
+import { CartProvider } from "../../react-context/cartContext"; 
+
 export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
   return (
-    <>
+    <CartProvider> {/* Оборачиваем в CartProvider */}
       <Header setCart={setIsCartOpen} />
       <Toaster position="top-left" />
-      <Cart open={isCartOpen} setCart={setIsCartOpen} />
+      <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
       <PizzaAdSection />
       <MainFoodSection />
       <Footer />
-    </>
+    </CartProvider>
   );
 }

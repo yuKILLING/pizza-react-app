@@ -30,7 +30,7 @@ export default function Modal({ children, open }) {
             transition={{ duration: 0.2 }}
             className="h-screen w-screen fixed z-50 top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60 flex justify-center items-center"
           >
-            <div className="w-[800px] h-[400px] rounded-3xl bg-white">
+            <div className="w-[800px] h-[400px] rounded-3xl bg-white overflow-hidden">
               {children}
             </div>
           </motion.div>
