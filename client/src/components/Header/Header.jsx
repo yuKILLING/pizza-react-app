@@ -2,7 +2,7 @@ import "./Header.css";
 import { Link, NavLink } from "react-router-dom";
 // Header
 
-export default function Header({setCart}) {
+export default function Header({setIsCartOpen}) {
   return (
     <header className="bg-white z-10 bg-opacity-80 backdrop-blur-md border-b border-b-gray-200 sticky top-0">
       <div className="text-base grid grid-cols-3 items-center justify-items-center max-w-[1200px] py-2 m-auto">
@@ -24,7 +24,7 @@ export default function Header({setCart}) {
             <Link to="/delivery">О доставке</Link>
           </li>
           <li className="middle_navigation">
-            <span onClick={()=>setCart(true)}>Корзина</span>
+            <span onClick={()=>setIsCartOpen(true)}>Корзина</span>
           </li>
         </ul>
 
@@ -49,7 +49,7 @@ export default function Header({setCart}) {
               alt="Location"
               className="w-4 cursor-pointer"
             />
-            <li>Профиль</li>
+            <Link to={"/profile"}>Профиль</Link>
           </div>
         </ul>
       </div>

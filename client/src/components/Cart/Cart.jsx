@@ -3,9 +3,10 @@ import { useCart } from "../../react-context/cartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import CartList from "./CartList";
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
 
 export default function Cart({ isCartOpen, setIsCartOpen }) {
-  const { addToCart, favorites, setFavorites } = useCart();
+  const { addToCart, favorites, setFavorites, makeAnOrder } = useCart();
   const [totalPrice, setTotalPrice] = useState(0);
   const [tax, setTax] = useState(0);
   // Getting data from local storage
@@ -79,7 +80,7 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
                 />
                 <h6 className="font-bold text-2xl">Корзина</h6>
               </div>
-              
+
               {/* If cart is not empty */}
               {favorites.length > 0 && (
                 <>
@@ -101,7 +102,7 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
                   </div>
 
                   <div className="mx-2 flex flex-col">
-                    <Button className="h-10">Оформить заказ</Button>
+                    <Button className="h-10" onClick={()=>{makeAnOrder()}}>Оформить заказ</Button>
                   </div>
                 </>
               )}

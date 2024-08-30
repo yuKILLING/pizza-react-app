@@ -12,8 +12,8 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <CartProvider> {/* Оборачиваем в CartProvider */}
-      <Header setCart={setIsCartOpen} />
+    <CartProvider> {/* Оборачиваем в CartProvider, для использования контекста. */}
+      <Header setIsCartOpen={setIsCartOpen} />
       <Toaster position="top-left" />
       <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
       <PizzaAdSection />

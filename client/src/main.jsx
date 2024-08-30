@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./pages/App/App.jsx";
-import Cart from "./pages/Cart/CartPage.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 import Delivery from "./pages/Delivery/DeliveryPage.jsx";
 import Street from "./pages/Street/StreetPage.jsx";
 import "./index.css";
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
     element: <Delivery />,
   },
   {
-    path: "/cart",
-    element: <Cart />,
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/street",

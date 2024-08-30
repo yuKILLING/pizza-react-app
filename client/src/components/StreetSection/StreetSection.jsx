@@ -1,7 +1,5 @@
 import React from "react";
-import GoogleMapReact from "google-map-react";
 import StreetMap from "./StreetMap";
-
 export default function StreetSection() {
   return (
     <>

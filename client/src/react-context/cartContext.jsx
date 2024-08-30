@@ -29,6 +29,15 @@ const deleteSuccessToast = () =>
     },
   });
 
+const makeAnOrderToast = () =>
+  toast.success("Ваш заказ прибудет в ближайшие 60 минут!", {
+    style: {
+      border: "1px solid green",
+      fontWeight: "bold",
+      fontSize: "15px",
+    },
+  });
+
 // Creating context
 const CartContext = createContext();
 
@@ -58,9 +67,21 @@ export const CartProvider = ({ children }) => {
     return deleteSuccessToast();
   };
 
+  const makeAnOrder = () => {
+    setFavorites([])
+    localStorage.clear();
+    return makeAnOrderToast();
+  };
+
   return (
     <CartContext.Provider
-      value={{ favorites, setFavorites, addToCart, deleteFromCart }}
+      value={{
+        favorites,
+        setFavorites,
+        addToCart,
+        deleteFromCart,
+        makeAnOrder,
+      }}
     >
       {children}
     </CartContext.Provider>
