@@ -13,7 +13,7 @@ export default function Profile() {
         <Header setIsCartOpen={setIsCartOpen} />
         <Cart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
         <div className="flex-1">
-          <ProfileSection />
+          <ProfileSection/>
         </div>
         <Footer />
       </div>
