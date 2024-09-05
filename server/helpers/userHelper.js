@@ -1,11 +1,10 @@
 const db = require("../db");
 
-async function useCheck(login) {
+async function useCheck(email) {
   try {
-    const user = await db.query(
-      "SELECT * FROM users WHERE login = $1",
-      [login]
-    );
+    const user = await db.query("SELECT * FROM users WHERE user_email = $1", [
+      email,
+    ]);
     if (user.rowCount === 0) {
       return { message: "Account is not in use" };
     }
@@ -17,11 +16,11 @@ async function useCheck(login) {
   }
 }
 
-async function addUser(login, hashedPassword) {
+async function addUser(email, hashedPassword, nickname, birthday) {
   try {
     const result = await db.query(
-      "INSERT INTO users (login, password) VALUES ($1, $2) RETURNING *",
-      [login, hashedPassword]
+      "INSERT INTO users (user_email, user_password, user_nickname, user_birthday) VALUES ($1, $2, $3, $4) RETURNING *",
+      [email, hashedPassword, nickname, birthday]
     );
     return result.rows[0];
   } catch (error) {
@@ -30,4 +29,4 @@ async function addUser(login, hashedPassword) {
   }
 }
 
-module.exports = { useCheck, addUser }
+module.exports = { useCheck, addUser };
