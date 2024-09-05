@@ -1,6 +1,5 @@
 // Cart list with animation
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useEffect, useRef } from "react";
 import CartItem from "./CartItem";
 
 export default function CartList({ pizzas }) {

@@ -41,6 +41,7 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
       console.error(error);
     }
   }, [favorites]);
+  
   // Scroll-bar fix
   useEffect(() => {
     const scrollbarWidth =

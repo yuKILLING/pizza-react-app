@@ -2,41 +2,7 @@
 import React, { createContext, useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 // Toast handlers
-const errorToast = () =>
-  toast.error("Вначале удалите что-то из корзины.", {
-    style: {
-      border: "2px solid red",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-  });
 
-const successToast = () =>
-  toast.success("Вы успешно добавили в корзину.", {
-    style: {
-      border: "1px solid green",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-  });
-
-const deleteSuccessToast = () =>
-  toast.success("Вы успешно удалили пиццу.", {
-    style: {
-      border: "1px solid green",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-  });
-
-const makeAnOrderToast = () =>
-  toast.success("Ваш заказ прибудет в ближайшие 60 минут!", {
-    style: {
-      border: "1px solid green",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-  });
 
 // Creating context
 const CartContext = createContext();
@@ -68,7 +34,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const makeAnOrder = () => {
-    setFavorites([])
+    setFavorites([]);
     localStorage.clear();
     return makeAnOrderToast();
   };
