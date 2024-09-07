@@ -10,7 +10,7 @@ This is a Pizza's shop SPA app, that has frontend and backend parts.
 
 ## Main TODO's
 
-Finalize profile page, add credit cards list, adding cards, fix bugs. 
+...
 
 ## Stack
 
