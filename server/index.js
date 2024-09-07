@@ -26,4 +26,7 @@ app.use("/pizza", pizzaRouter);
 const userRouter = require("./routes/userRouter");
 app.use("/user", userRouter);  
 
+const cardRouter = require("./routes/cardsRouter");
+app.use("/cards", cardRouter);  
+
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));

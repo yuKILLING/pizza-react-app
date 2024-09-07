@@ -65,6 +65,7 @@ class UserController {
           isVerify: true,
           token: token,
           userData: {
+            user_id: user.user.user_id,
             email: user.user.user_email,
             nickname: user.user.user_nickname,
             birthDate: user.user.user_birthday,
