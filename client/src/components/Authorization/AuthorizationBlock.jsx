@@ -6,11 +6,20 @@ import axios from "axios";
 import SecondButton from "../Button/SecondButton";
 import Input from "../UserInput/Input";
 
-// Success Toast 
+// Success Toast
 const successToast = () =>
   toast.success("Аккаунт успешно создан", {
     style: {
       border: "1px solid green",
+      fontWeight: "bold",
+      fontSize: "15px",
+    },
+  });
+
+const errorValidToast = () =>
+  toast.error("Поля не должны быть пустыми!", {
+    style: {
+      border: "2px solid red",
       fontWeight: "bold",
       fontSize: "15px",
     },
@@ -25,21 +34,23 @@ export default function AuthorizationSection() {
   const [registrationPassword, setRegistrationPassword] = useState("");
   const [registrationNickname, setRegistrationNickname] = useState("");
   const [registrationBirthday, setRegistrationBirthday] = useState("");
-  const {changeAuth} = useUser();
-  const {changeBearer} = useUser();
-  const {changeUser} = useUser();
+  const { changeAuth } = useUser();
+  const { changeBearer } = useUser();
+  const { changeUser } = useUser();
 
   // Login Function
   const logIn = async (e) => {
-    e.preventDefault();
     try {
+      if (!loginEmail || !loginPassword) {
+        return errorValidToast();
+      }
       const response = await axios.post(
         `http://localhost:5000/user/login?email=${loginEmail}&password=${loginPassword}`
       );
       if (response.data.isVerify === true) {
-        changeBearer(response.data.token) 
+        changeBearer(response.data.token);
         changeAuth(true);
-        changeUser(response.data.userData)
+        changeUser(response.data.userData);
         navigate("/profile");
       }
     } catch (error) {
@@ -56,15 +67,22 @@ export default function AuthorizationSection() {
 
   // Registration Function
   const registration = async (e) => {
-    e.preventDefault();
     try {
+      if (
+        !registrationEmail ||
+        !registrationPassword ||
+        !registrationNickname ||
+        !registrationBirthday
+      ) {
+        return errorValidToast();
+      }
       const response = await axios.post(
         `http://localhost:5000/user/createuser?email=${registrationEmail}&password=${registrationPassword}&nickname=${registrationNickname}&birthday=${registrationBirthday}`
       );
-      console.log(response)
-      if (response.data.message === 'User added successfully') {
+      console.log(response);
+      if (response.data.message === "User added successfully") {
         setTab("login");
-        return successToast()
+        return successToast();
       }
     } catch (error) {
       console.error(error);
@@ -80,7 +98,6 @@ export default function AuthorizationSection() {
     }
   };
 
-
   return (
     <>
       {/* Login Block */}
@@ -91,7 +108,7 @@ export default function AuthorizationSection() {
             Добро пожаловать!
           </h1>
           <span className="self-center opacity-70">Давайте кушать вкусно</span>
-          <form className="mt-12 space-y-5">
+          <div className="mt-12 space-y-5">
             <div className="flex flex-col gap-2">
               <label>Почта</label>
               <Input
@@ -115,7 +132,7 @@ export default function AuthorizationSection() {
             </div>
 
             <SecondButton onClick={logIn}>Войти</SecondButton>
-          </form>
+          </div>
           <span className="mt-5">
             Нет аккаунта?{" "}
             <span
@@ -136,7 +153,7 @@ export default function AuthorizationSection() {
             Добро пожаловать!
           </h1>
           <span className="self-center opacity-70">Давайте кушать вкусно</span>
-          <form className="mt-12 space-y-5">
+          <div className="mt-12 space-y-5">
             <div className="flex flex-col gap-2">
               <label>Почта</label>
               <Input
@@ -167,7 +184,7 @@ export default function AuthorizationSection() {
               <label>Дата рождения</label>
               <input
                 type="date"
-                className="outline-none border bg-black bg-opacity-5"
+                className="outline-none border bg-black bg-opacity-5 h-10 px-2"
                 value={registrationBirthday}
                 onChange={(e) => {
                   setRegistrationBirthday(e.target.value);
@@ -191,7 +208,7 @@ export default function AuthorizationSection() {
             <SecondButton onClick={registration}>
               Зарегестрироваться
             </SecondButton>
-          </form>
+          </div>
           <span className="mt-5">
             Есть аккаунт?{" "}
             <span
