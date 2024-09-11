@@ -2,6 +2,10 @@
 
 This is a Pizza's shop SPA app, that has frontend and backend parts.
 
+# Demo:
+
+[![Watch here](https://img.youtube.com/vi/EUIlNckdNu0/0.jpg)]
+
 ## To run this project:
 
 - restore your database, by using sql file in repository (check for db.js, settings may vary).
