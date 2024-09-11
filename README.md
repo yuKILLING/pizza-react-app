@@ -4,7 +4,8 @@ This is a Pizza's shop SPA app, that has frontend and backend parts.
 
 # Demo:
 
-[![Watch here](https://img.youtube.com/vi/EUIlNckdNu0/0.jpg)]
+[![Watch demo here](https://img.youtube.com/vi/EUIlNckdNu0/0.jpg)](https://www.youtube.com/watch?v=EUIlNckdNu0)
+
 
 ## To run this project:
 
