@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import CartList from "./CartList";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
+import { useUser } from "../../stores/store";
 
 export default function Cart({ isCartOpen, setIsCartOpen }) {
+  const { userCards } = useUser();
   const { addToCart, favorites, setFavorites, makeAnOrder } = useCart();
   const [totalPrice, setTotalPrice] = useState(0);
   const [tax, setTax] = useState(0);
@@ -41,7 +43,7 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
       console.error(error);
     }
   }, [favorites]);
-  
+
   // Scroll-bar fix
   useEffect(() => {
     const scrollbarWidth =
@@ -83,10 +85,27 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
               </div>
 
               {/* If cart is not empty */}
-              {favorites.length > 0 && (
+              {favorites.length > 0 && userCards.length > 0 && (
                 <>
-                  <div className="flex-grow mt-5">
+                  <div className="mt-5 flex-grow  ">
                     <CartList pizzas={favorites} />
+                  </div>
+
+                  {/* Card Choose */}
+                  <div className="mx-5 mt-6 mb-7 flex flex-col gap-2">
+                    <h6 className="font-bold text-xl">
+                      Выберите карту для оплаты
+                    </h6>
+                    <select className="w-full outline-none text-lg border border-black border-opacity-30 rounded">
+                      {userCards.map((card) => (
+                        <option value={card.card_number} key={card.card_id}>
+                          {`${card.card_number.slice(
+                            0,
+                            4
+                          )} **** **** ${card.card_number.slice(-4)}`}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="flex flex-col mb-4 mx-4">
@@ -103,7 +122,14 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
                   </div>
 
                   <div className="mx-2 flex flex-col">
-                    <Button className="h-10" onClick={()=>{makeAnOrder()}}>Оформить заказ</Button>
+                    <Button
+                      className="h-10"
+                      onClick={() => {
+                        makeAnOrder();
+                      }}
+                    >
+                      Оформить заказ
+                    </Button>
                   </div>
                 </>
               )}
@@ -114,6 +140,16 @@ export default function Cart({ isCartOpen, setIsCartOpen }) {
                   <h1 className="font-bold text-2xl">Ой, пусто!</h1>
                   <p className="break-word max-w-52 text-center leading-5">
                     Добавьте что-то в корзину, чтобы сделать заказ.
+                  </p>
+                </div>
+              )}
+
+              {userCards.length == 0 && (
+                <div className="flex-grow mt-5 flex flex-col justify-center items-center gap-5">
+                  <img src="sad.png" alt="Empty" />
+                  <h1 className="font-bold text-2xl">А оплата...</h1>
+                  <p className="break-word max-w-52 text-center leading-5">
+                    Для начала добавьте карту в личном кабинете
                   </p>
                 </div>
               )}

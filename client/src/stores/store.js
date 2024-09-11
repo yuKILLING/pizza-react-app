@@ -7,6 +7,7 @@ export const useUser = create(
       isAuth: false,
       bearerKey: "",
       user: {},
+      userCards: [],
       changeAuth: (authStatus) =>
         set((state) => ({
           isAuth: authStatus,
@@ -20,6 +21,10 @@ export const useUser = create(
       changeBearer: (bearer) =>
         set((state) => ({
           bearerKey: bearer,
+        })),
+      changeUserCards: (cards) =>
+        set((state) => ({
+          userCards: cards,
         })),
     }),
     {

@@ -1,6 +1,7 @@
 // This is a context, that will help us handle cart.
 import React, { createContext, useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 // Toast handlers
 
 // Creating context
@@ -68,9 +69,18 @@ export const CartProvider = ({ children }) => {
     return deleteSuccessToast();
   };
 
-  const makeAnOrder = () => {
+  const makeAnOrder = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/pizza/addorder`,
+        favorites
+      );
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
     setFavorites([]);
-    localStorage.clear();
+    localStorage.removeItem("pizzas")
     return makeAnOrderToast();
   };
 

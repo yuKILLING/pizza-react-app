@@ -8,70 +8,80 @@ import Input from "../../components/UserInput/Input";
 import SecondButton from "../../components/Button/SecondButton";
 import CardList from "../../components/Cards/CardList";
 
+// Toast notifications
 const successAddedToast = () =>
   toast.success("Карта успешно привязана.", {
-    style: {
-      border: "1px solid green",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
+    style: { border: "1px solid green", fontWeight: "bold", fontSize: "15px" },
   });
 
 const successDeletedToast = () =>
   toast.success("Карта успешно удалена.", {
-    style: {
-      border: "1px solid green",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
+    style: { border: "1px solid green", fontWeight: "bold", fontSize: "15px" },
   });
 
 const errorAddedToast = () =>
-  toast.success("Не удалось добавить карту", {
-    style: {
-      border: "1px solid red",
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
+  toast.error("Не удалось добавить карту", {
+    style: { border: "1px solid red", fontWeight: "bold", fontSize: "15px" },
+  });
+
+const errorDeletedToast = () =>
+  toast.error("Не удалось удалить карту", {
+    style: { border: "1px solid red", fontWeight: "bold", fontSize: "15px" },
   });
 
 export default function ProfileSection() {
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
-  const { isAuth, user, changeBearer, changeAuth, changeUser } = useUser();
+  const {
+    isAuth,
+    user,
+    changeBearer,
+    changeAuth,
+    changeUser,
+    userCards,
+    changeUserCards,
+  } = useUser();
 
-  // Profile info with fallback values
   const [userEmail, setUserEmail] = useState(user?.email || "");
   const [userBirthdate, setUserBirthdate] = useState(user?.birthDate || "");
   const [userNickname, setUserNickname] = useState(user?.nickname || "");
   const [loading, setLoading] = useState(false);
-  // Card info
-  const [cardList, setCardList] = useState([]);
+
   const [cardNumber, setCardNumber] = useState("");
   const [cardOwner, setCardOwner] = useState("");
   const [year, setYear] = useState("");
   const [cvv, setCvv] = useState("");
 
-  // User cards fetching
+  // Fetch user cards
+  // Fetch user cards
   const fetchUserCards = useCallback(async () => {
+    if (!isAuth || !user?.user_id) {
+      console.error(
+        "Пользователь не авторизован или ID пользователя отсутствует"
+      );
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await axios.get(
         `http://localhost:5000/cards/getallusercards?user_id=${user.user_id}`
       );
-      setCardList(response.data);
-      setLoading(false);
+      changeUserCards(response.data);
     } catch (error) {
       console.error("Error fetching cards:", error);
+    } finally {
       setLoading(false);
     }
-  }, []);
+  }, [isAuth, user?.user_id, changeUserCards]);
 
   useEffect(() => {
-    fetchUserCards();
-  }, [fetchUserCards]);
+    if (user?.user_id) {
+      fetchUserCards();
+    }
+  }, [fetchUserCards, user?.user_id]);
 
-  // Adding card function
+  // Add card function
   const addCard = async () => {
     try {
       const cardData = {
@@ -90,33 +100,31 @@ export default function ProfileSection() {
       if (response.status === 200) {
         fetchUserCards();
         setModal(false);
-        return successAddedToast();
+        successAddedToast();
       }
     } catch (error) {
       console.error("Ошибка при добавлении карты:", error);
-      return errorAddedToast();
+      errorAddedToast();
     }
   };
 
-  // Deleting card function
-
+  // Delete card function
   const deleteCard = async (card_id) => {
     try {
       const response = await axios.delete(
         `http://localhost:5000/cards/deletecard?card_id=${card_id}`
       );
-      console.log(response);
       if (response.status === 200) {
         fetchUserCards();
-        return successDeletedToast();
+        successDeletedToast();
       }
     } catch (error) {
       console.error("Ошибка при удалении карты:", error);
-      return errorAddedToast();
+      errorDeletedToast();
     }
   };
 
-  // Auth checking
+  // Redirect if not authenticated
   useEffect(() => {
     if (!isAuth) {
       navigate("/auth");
@@ -127,39 +135,36 @@ export default function ProfileSection() {
     return null;
   }
 
-  // MM/YY handler
+  // Input handlers
   const yearsChanged = (e) => {
-    let value = e.target.value;
-    value = value.replace(/\D/g, "");
+    let value = e.target.value.replace(/\D/g, "");
     if (value.length > 2) {
       value = value.slice(0, 2) + "/" + value.slice(2, 4);
     }
     setYear(value);
   };
 
-  // Card number handler
   const cardNumberHandler = (e) => {
     const value = e.target.value.replace(/\D/g, "");
-    const formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
-    setCardNumber(formattedValue);
+    setCardNumber(value.match(/.{1,4}/g)?.join(" ") || value);
   };
-  // CVV Handler
+
   const cvvHandler = (e) => {
-    const value = e.target.value.replace(/\D/g, "");
-    setCvv(value);
+    setCvv(e.target.value.replace(/\D/g, ""));
   };
 
   // Log out function
-  const logOut = async () => {
+  const logOut = () => {
     changeAuth(false);
     changeBearer("");
     changeUser({});
+    changeUserCards([]);
     navigate("/");
   };
 
   return (
     <section className="w-3/6 m-auto flex flex-col border mt-14 relative">
-      {/* Credit card Modal */}
+      {/* Modal */}
       <SecondModal open={modal} setModal={setModal}>
         <div className="flex flex-col items-center">
           {/* Credit Card picture */}
@@ -190,13 +195,10 @@ export default function ProfileSection() {
               <Input
                 className="w-80"
                 value={cardOwner}
-                onChange={(e) => {
-                  setCardOwner(e.target.value);
-                }}
+                onChange={(e) => setCardOwner(e.target.value)}
                 maxLength="25"
               />
             </div>
-
             <div className="flex gap-2 justify-between">
               <div className="flex flex-col">
                 <label className="text-primaryGray">MM/YY</label>
@@ -217,7 +219,6 @@ export default function ProfileSection() {
                 />
               </div>
             </div>
-
             <div className="flex">
               <SecondButton onClick={addCard}>Подтвердить</SecondButton>
             </div>
@@ -232,10 +233,8 @@ export default function ProfileSection() {
         className="absolute cursor-pointer w-6 right-3 top-2 opacity-70 transition hover:translate-x-1 duration-300"
         onClick={logOut}
       />
-      {/* Profile and name */}
       <div className="border-b">
         <div className="p-5 flex">
-          {/* Profile image */}
           <div className="w-1/4 flex flex-col gap-10 mr-10">
             <img
               src="/profile.jpg"
@@ -244,7 +243,6 @@ export default function ProfileSection() {
             />
             <h1 className="text-2xl">Аккаунт</h1>
           </div>
-          {/* Name */}
           <div className="flex flex-col mt-5 gap-3">
             <h2 className="text-3xl">{userNickname}</h2>
             <span className="text-primaryBlue">
@@ -254,38 +252,32 @@ export default function ProfileSection() {
         </div>
       </div>
 
-      {/* Account data */}
+      {/* Account Data */}
       <div className="border-b">
         <div className="p-5 py-10 flex">
           <div className="w-1/4 flex flex-col gap-12 text-primaryGray mr-10">
             <span>Никнейм</span>
             <span>Почта</span>
-            {/* <span>Пароль</span> */}
             <span>День рождения</span>
           </div>
           <div className="flex flex-col gap-8">
             <Input
               className="w-96"
               value={userNickname}
-              onChange={(e) => {
-                setUserNickname(e.target.value);
-              }}
+              onChange={(e) => setUserNickname(e.target.value)}
             />
             <Input
               type="email"
               className="w-96"
               value={userEmail}
-              onChange={(e) => {
-                setUserEmail(e.target.value);
-              }}
+              onChange={(e) => setUserEmail(e.target.value)}
             />
-            {/* <Input type="password" className="w-96" value={}/> */}
             <span>{userBirthdate}</span>
           </div>
         </div>
       </div>
 
-      {/* Credit card data */}
+      {/* Credit Card Data */}
       <div>
         <div className="p-5">
           <div className="flex items-center justify-between px-1">
@@ -294,13 +286,11 @@ export default function ProfileSection() {
               src="/icons/add.svg"
               alt="Add"
               className="w-6 hover:rotate-90 transition cursor-pointer"
-              onClick={() => {
-                setModal(true);
-              }}
+              onClick={() => setModal(true)}
             />
           </div>
           <CardList
-            cardList={cardList}
+            userCards={userCards}
             loading={loading}
             deleteCard={deleteCard}
           />

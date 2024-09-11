@@ -1,6 +1,6 @@
 export default function CardItem({card, deleteCard}) {
   return (
-    <div className="flex justify-between border rounded-lg py-2 px-4 bg-black bg-opacity-10">
+    <div className="flex justify-between border rounded-lg py-2 px-4 bg-black bg-opacity-10" draggable={true}>
       <div className="flex gap-6 items-center">
         <img src="/icons/visa.svg" alt="Visa" className="w-8" />
         <span className="font-bold">{card.card_number}</span>
